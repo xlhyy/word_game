@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+</head>
+<body id="all_body">
+    情景：{{data[cur_num]["des"]}}<br>
+    A.{{data[cur_num]["A"]["des"]}}<br>
+    B.{{data[cur_num]["B"]["des"]}}<br>
+    <div id="cur_data_div_A" style="display:none;">{{data[cur_num]["A"]["res"]}}</div>
+    <div id="cur_data_div_B" style="display:none;">{{data[cur_num]["B"]["res"]}}</div>
+    <br>
+    <select id="choose">
+      <option value="A">A</option>
+      <option value="B">B</option>
+    </select>
+    <button id="sub" onclick="sub_func({{cur_num+1}})">确定</button>
+</body>
+
+<script type="text/javascript">
+    function sub_func(cur_num) {
+        var options=$("#choose option:selected");
+        var choose = options.val();
+        if(choose === "A"){
+            var cur_data_str = $("#cur_data_div_A").text();
+        } else {
+            var cur_data_str = $("#cur_data_div_B").text();
+        }
+        alert(cur_data_str);
+        $.ajax({
+            url:"http://127.0.0.1:5000?cur_num="+cur_num+"&cur_choose="+choose,
+            type:"GET",
+            success:function(data) {
+                $("#all_body").html(data);
+            },
+        });
+    };
+</script>
+
+</html>
